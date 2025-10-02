@@ -2,14 +2,14 @@ import { X } from "lucide-react"
 import Input from "./Input/Input"
 import { useState } from "react";
 
-const JobForm = () => {
+const JobForm = ({onClose}) => {
   const [status, setStatus] = useState("Applied");
   return (
     <div className="w-full border p-8 rounded-md">
       <div className="">
         <div className="flex justify-between">
           <h1>Add New Application</h1>
-          <X className="w-4 h-4 text-neutral-500" />
+          <X className="w-4 h-4 text-neutral-500 cursor-pointer" onClick={onClose} />
         </div>
         <p className="text-neutral-500">Track a new job application</p>
       </div>

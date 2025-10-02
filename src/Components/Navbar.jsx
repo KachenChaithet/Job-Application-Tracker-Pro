@@ -1,13 +1,15 @@
 import { BarChart3, Home, List } from "lucide-react"
 import { useState } from "react"
+import { useLocation, useNavigate } from "react-router-dom"
 
 const Navbar = () => {
-    const [selected, setSelected] = useState('dashboard')
-
+    const location = useLocation()
+    
+    const navigate = useNavigate()
     const tabs = [
-        { id: 'dashboard', icon: <Home className="h-4 w-4" />, label: 'Dashboard' },
-        { id: 'applications', icon: <List className="h-4 w-4" />, label: 'Applications' },
-        { id: 'analytics', icon: <BarChart3 className="h-4 w-4" />, label: 'Analytics' },
+        { id: 'dashboard', icon: <Home className="h-4 w-4" />, label: 'Dashboard', path: '/' },
+        { id: 'applications', icon: <List className="h-4 w-4" />, label: 'Applications', path: '/applications' },
+        { id: 'analytics', icon: <BarChart3 className="h-4 w-4" />, label: 'Analytics', path: '/analytics' },
     ]
 
     return (
@@ -16,16 +18,16 @@ const Navbar = () => {
                 {tabs.map((tab) => (
                     <div
                         key={tab.id}
-                        onClick={() => setSelected(tab.id)}
+                        onClick={() => navigate(tab.path)}
                         className={`gap-2 flex items-center justify-center cursor-pointer rounded-full
-                            ${selected === tab.id ? 'bg-white  text-black' : 'text-black'}`}
+                            ${location.pathname === tab.path ? 'bg-white  text-black font-medium' : 'text-black  font-medium'}`}
                     >
                         {tab.icon}
                         {tab.label}
                     </div>
                 ))}
             </div>
-        </div>
+        </div >
     )
 }
 

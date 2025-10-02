@@ -1,5 +1,4 @@
 import { Briefcase, Calendar, CircleCheckBig, CircleX, Clock10, PlusIcon } from "lucide-react"
-import Navbar from "../Components/Navbar"
 
 
 const applications = [
@@ -29,38 +28,31 @@ const Home = () => {
         Rejected: applications.filter(a => a.status === "Rejected").length,
     }
     return (<>
-
         {/* add */}
-        <div className="flex items-center justify-between mb-8">
-            <div className="">
-                <h1 className="text-[24px] font-semibold">Job Application Tracker Pro </h1>
-                <p className="text-neutral-500">Organize and track your job search journey</p>
-            </div>
-            <button className="text-white flex bg-black gap-2 font-semibold justify-center items-center px-3 py-2 rounded-md"><PlusIcon className="h-4 w-4" /> Add Applicatoin</button>
-        </div>
 
-        <Navbar />
+            <div className="flex flex-col gap-8 mt-8">
 
-        {/* showstatus */}
-        <div className="">
-            <div className="">
-                <h1 className="text-[24px] font-semibold">Job Application Tracker</h1>
-                <p className="text-neutral-500">Track and manage your job applications in one place</p>
-
-            </div>
-        </div>
-
-        <div className="flex justify-between">
-            {statusMap.map((item) => (
-                <div key={item.key} className="border pl-6 border-[#e5e5e5] py-3 w-[240px] rounded-lg text-center font-semibold flex  justify-start items-center gap-2 ">
-                    {item.icon}
+                {/* showstatus */}
+                <div className="">
                     <div className="">
-                        <div className="text-2xl font-bold text-start ">{counts[item.key]}</div>
-                        <div className="font-medium text-[14px] text-gray-500">{item.label}</div>
+                        <h1 className="text-[24px] font-semibold">Job Application Tracker</h1>
+                        <p className="text-neutral-500">Track and manage your job applications in one place</p>
+
                     </div>
                 </div>
-            ))}
-        </div>
+
+                <div className="flex justify-between">
+                    {statusMap.map((item) => (
+                        <div key={item.key} className="border pl-6 border-[#e5e5e5] py-3 w-[240px] rounded-lg text-center font-semibold flex  justify-start items-center gap-2 ">
+                            {item.icon}
+                            <div className="">
+                                <div className="text-2xl font-bold text-start ">{counts[item.key]}</div>
+                                <div className="font-medium text-[14px] text-gray-500">{item.label}</div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
 
 
     </>

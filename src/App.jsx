@@ -1,18 +1,29 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import JobForm from './Components/JobForm'
+import Layout from './Components/Layout'
 import Navbar from './Components/Navbar'
 import './index.css'
 import Home from './pages/Home'
+import JobTable from './Components/JobTable'
 
 
 function App() {
 
   return (
     <>
-      <div className="container mx-auto px-4 py-8">
-        {/* <Home /> */}
 
-        <JobForm />
-      </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Layout />} >
+            <Route path='/' element={<Home />} />
+            <Route path='/applications' element={<JobTable />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+
+      {/* <Layout /> */}
+
+      {/* <JobForm /> */}
 
     </>
   )
