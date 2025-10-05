@@ -1,11 +1,28 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Navbar from "./Navbar"
 import JobForm from "./JobForm"
 import { PlusIcon } from "lucide-react"
 import { Outlet } from "react-router-dom"
+import axios from "axios"
 
 const Layout = ({ children }) => {
     const [isAdd, setIsAdd] = useState(false)
+    const [job, setJob] = useState([])
+    console.log(job);
+
+    const FetchJobAll = async () => {
+        try {
+
+            const response = await axios.get('http://localhost:5000/job/getall')
+            setJob(response.data.AllJob)
+        } catch (error) {
+            console.error("Failed to fetch jobs:", error)
+        }
+    }
+
+    useEffect(() => {
+        FetchJobAll()
+    }, [])
 
     return (
         <>
@@ -24,10 +41,10 @@ const Layout = ({ children }) => {
                     </button>
                 </div>
 
-                {isAdd && <JobForm onClose={() => setIsAdd(false)} />}
+                {isAdd && <JobForm onClose={() => setIsAdd(false)} fetchJobs={FetchJobAll} />}
 
                 <Navbar />
-                <Outlet />{/* รองรับ content จาก Home */}
+                <Outlet context={{ job, FetchJobAll }} />{/* รองรับ content จาก Home */}
             </div>
 
         </>

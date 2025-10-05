@@ -1,13 +1,18 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
-import test from './Routers/JobRouter.js'
+import job from './Routers/JobRouter.js'
 
 dotenv.config()
 const app = express()
 const port = process.env.PORT
 
-app.use('/api', test)
+app.use(cors({
+    origin: 'http://localhost:5173'
+}))
+
+app.use(express.json())
+app.use('/job', job)
 
 
 app.listen(port, () => {

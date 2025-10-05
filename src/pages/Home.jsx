@@ -1,13 +1,11 @@
-import { Briefcase, Calendar, CircleCheckBig, CircleX, Clock10, PlusIcon } from "lucide-react"
+import axios from "axios";
+import { Briefcase, Calendar, CircleCheckBig, CircleX, Clock10, PlusIcon, TrendingUp } from "lucide-react"
+import moment from "moment";
+import { useEffect, useState } from "react";
+import { useOutletContext } from "react-router-dom";
 
 
-const applications = [
-    { id: 1, company: "Google", position: "Frontend", status: "Pending" },
-    { id: 2, company: "Facebook", position: "Backend", status: "Interview" },
-    { id: 3, company: "Amazon", position: "Fullstack", status: "Offer" },
-    { id: 4, company: "Netflix", position: "Frontend", status: "Rejected" },
-    { id: 5, company: "Tesla", position: "Backend", status: "Pending" },
-];
+
 
 const statusMap = [
     { label: "Total Applications", key: "total", icon: <Briefcase className="w-4 h-4 text-gray-500" /> },
@@ -20,39 +18,72 @@ const statusMap = [
 
 const Home = () => {
 
+    const { job, FetchJobAll } = useOutletContext()
+
+
     const counts = {
-        total: applications.length,
-        Pending: applications.filter(a => a.status === "Pending").length,
-        Interview: applications.filter(a => a.status === "Interview").length,
-        Offer: applications.filter(a => a.status === "Offer").length,
-        Rejected: applications.filter(a => a.status === "Rejected").length,
+        total: job.length,
+        Pending: job.filter(a => a.status === "Pending").length,
+        Interview: job.filter(a => a.status === "Interviewing").length,
+        Offer: job.filter(a => a.status === "Offer").length,
+        Rejected: job.filter(a => a.status === "Rejected").length,
     }
+
+    useEffect(() => {
+        FetchJobAll()
+    }, [])
+
+
+
+
     return (<>
         {/* add */}
 
-            <div className="flex flex-col gap-8 mt-8">
+        <div className="flex flex-col gap-8 mt-8">
 
-                {/* showstatus */}
+            {/* showstatus */}
+            <div className="">
                 <div className="">
-                    <div className="">
-                        <h1 className="text-[24px] font-semibold">Job Application Tracker</h1>
-                        <p className="text-neutral-500">Track and manage your job applications in one place</p>
+                    <h1 className="text-[24px] font-semibold">Job Application Tracker</h1>
+                    <p className="text-neutral-500">Track and manage your job applications in one place</p>
 
-                    </div>
                 </div>
+            </div>
 
-                <div className="flex justify-between">
-                    {statusMap.map((item) => (
-                        <div key={item.key} className="border pl-6 border-[#e5e5e5] py-3 w-[240px] rounded-lg text-center font-semibold flex  justify-start items-center gap-2 ">
-                            {item.icon}
+            <div className="flex justify-between">
+                {statusMap.map((item) => (
+                    <div key={item.key} className="border pl-6 border-[#e5e5e5] py-3 w-[240px] rounded-lg text-center font-semibold flex  justify-start items-center gap-2 ">
+                        {item.icon}
+                        <div className="">
+                            <div className="text-2xl font-bold text-start ">{counts[item.key]}</div>
+                            <div className="font-medium text-[14px] text-gray-500">{item.label}</div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+
+            <div className="border border-[#e5e5e5] rounded-md p-4 overflow-auto h-[600px]">
+                <div className="flex gap-2 items-center">
+                    <TrendingUp />
+                    <h1 className="text-[20px]">Recent Applications</h1>
+                </div>
+                <div className="flex flex-col gap-4 mt-10">
+                    {job.map((job, index) => (
+                        <div className="bg-[#f5f5f7] rounded-md p-4 flex justify-between items-center">
                             <div className="">
-                                <div className="text-2xl font-bold text-start ">{counts[item.key]}</div>
-                                <div className="font-medium text-[14px] text-gray-500">{item.label}</div>
+                                <h1 className="font-semibold text-[18px]">{job.title}</h1>
+                                <p className="text-[#717191] text-[14px]">{job.company}  {job.location}</p>
+                            </div>
+                            <div className="flex gap-2 justify-center items-center">
+                                <span className="border rounded-full px-2 font-semibold text-[14px]">{job.status}</span>
+                                <span className="text-[14px] text-[#717191]">{moment(job.createdAt).format('DD/MM/YYYY')}</span>
                             </div>
                         </div>
                     ))}
                 </div>
             </div>
+        </div>
 
 
     </>

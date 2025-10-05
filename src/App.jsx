@@ -5,6 +5,7 @@ import Navbar from './Components/Navbar'
 import './index.css'
 import Home from './pages/Home'
 import JobTable from './Components/JobTable'
+import { Toaster } from 'react-hot-toast'
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
             <Route path='/applications' element={<JobTable />} />
           </Route>
         </Routes>
+        <Toaster position="top-right" reverseOrder={false} />
       </BrowserRouter>
 
       {/* <Layout /> */}
