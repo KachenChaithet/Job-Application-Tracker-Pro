@@ -3,6 +3,8 @@ import Input from "./Input/Input"
 import { useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { axiosInstance } from "../utils/axiosinstance";
+import { API_PATHS } from "../utils/apiPath";
 
 const JobForm = ({ onClose, fetchJobs }) => {
   const [company, setCompany] = useState("")
@@ -39,7 +41,7 @@ const JobForm = ({ onClose, fetchJobs }) => {
     }
     try {
 
-      const response = await axios.post('http://localhost:5000/job/create', payload)
+      const response = await axiosInstance.post(API_PATHS.JOB.CREATE, payload)
       if (response.data.message) {
         toast.success(response.data.message)
         cleanForm()

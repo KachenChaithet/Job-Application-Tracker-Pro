@@ -4,16 +4,18 @@ import JobForm from "./JobForm"
 import { PlusIcon } from "lucide-react"
 import { Outlet } from "react-router-dom"
 import axios from "axios"
+import { axiosInstance } from "../utils/axiosinstance"
+import { API_PATHS } from "../utils/apiPath"
 
 const Layout = ({ children }) => {
     const [isAdd, setIsAdd] = useState(false)
     const [job, setJob] = useState([])
-    console.log(job);
+
 
     const FetchJobAll = async () => {
         try {
 
-            const response = await axios.get('http://localhost:5000/job/getall')
+            const response = await axiosInstance.get(API_PATHS.JOB.GETALL)
             setJob(response.data.AllJob)
         } catch (error) {
             console.error("Failed to fetch jobs:", error)

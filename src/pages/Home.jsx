@@ -15,6 +15,12 @@ const statusMap = [
     { label: "Rejected", key: "Rejected", icon: <CircleX className="w-4 h-4 text-red-500" /> },
 ];
 
+const statusColors = {
+    Applied: "bg-white text-black border-gray-300",
+    Interviewing: "bg-[#eceef2] text-black border border-neutral-300",
+    Rejected: "bg-red-700 text-white border-red-300",
+    Offer: "bg-black text-white ",
+}
 
 const Home = () => {
 
@@ -44,7 +50,7 @@ const Home = () => {
             {/* showstatus */}
             <div className="">
                 <div className="">
-                    <h1 className="text-[24px] font-semibold">Job Application Tracker</h1>
+                    <h1 className="text-[24px]  font-semibold">Job Application Tracker</h1>
                     <p className="text-neutral-500">Track and manage your job applications in one place</p>
 
                 </div>
@@ -76,7 +82,7 @@ const Home = () => {
                                 <p className="text-[#717191] text-[14px]">{job.company}  {job.location}</p>
                             </div>
                             <div className="flex gap-2 justify-center items-center">
-                                <span className="border rounded-full px-2 font-semibold text-[14px]">{job.status}</span>
+                                <span className={`border rounded-full px-2 font-semibold text-[14px] ${statusColors[job.status] || "bg-gray-100 text-gray-700 border-gray-200"}`}>{job.status}</span>
                                 <span className="text-[14px] text-[#717191]">{moment(job.createdAt).format('DD/MM/YYYY')}</span>
                             </div>
                         </div>
