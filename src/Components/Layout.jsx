@@ -46,7 +46,7 @@ const Layout = ({ children }) => {
                 {isAdd && <JobForm onClose={() => setIsAdd(false)} fetchJobs={FetchJobAll} />}
 
                 <Navbar />
-                <Outlet context={{ job, FetchJobAll }} />{/* รองรับ content จาก Home */}
+                <Outlet context={{ job, FetchJobAll }} />
             </div>
 
         </>

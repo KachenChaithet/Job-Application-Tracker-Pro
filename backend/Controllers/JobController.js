@@ -38,7 +38,7 @@ export const UpdateJob = async (req, res) => {
             data: { company, title, status, date, salary, location, email, notes }
         })
 
-        res.status(201).json({ Create: update, message: 'Update Successfully' })
+        res.status(201).json({ Update: update, message: 'Update Successfully' })
 
     } catch (error) {
 

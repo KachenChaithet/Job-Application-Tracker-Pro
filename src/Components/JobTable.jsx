@@ -5,6 +5,7 @@ import { useOutletContext } from "react-router-dom";
 import { axiosInstance } from "../utils/axiosinstance";
 import { API_PATHS } from "../utils/apiPath";
 import toast from "react-hot-toast";
+import JobForm from "./JobForm";
 
 const JobTable = () => {
   const [filter, setFilter] = useState("All Status");
@@ -12,8 +13,7 @@ const JobTable = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [status, setStatus] = useState("Applied");
   const { job, FetchJobAll } = useOutletContext()
-
-
+  const [editJobId, setEditJobId] = useState(null)
 
 
   const handleStatusChange = async (id, newStatus) => {
@@ -53,7 +53,6 @@ const JobTable = () => {
     return 0;
   });
 
-  console.log(job);
   const statusColors = {
     Applied: "bg-white text-black border-gray-300",
     Interviewing: "bg-[#eceef2] text-black border border-neutral-300",
@@ -63,6 +62,21 @@ const JobTable = () => {
 
   return (
     <div className="mt-8">
+      {editJobId && (
+        <>
+          <div
+            className="fixed inset-0 bg-black/60 z-40"
+            onClick={() => setEditJobId(null)}
+          />
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <div className=" w-[500px] max-h-[90vh] overflow-y-auto rounded-lg relative">
+              <JobForm fetchJobs={FetchJobAll} jobId={editJobId} onClose={() => setEditJobId(null)} />
+            </div>
+          </div>
+        </>
+      )}
+
+
       <div className="flex w-full gap-4">
         <div className="w-[60%] bg-[#f3f3f5] rounded-lg flex items-center  gap-2 focus-within:outline-2 focus-within:outline-[#a7a7a8] ">
           <Search className="w-6 h-6 ml-2 text-gray-500" />
@@ -138,7 +152,7 @@ const JobTable = () => {
                     <option value="Rejected">Rejected</option>
                   </select>
                 </div>
-                <button className="hover:bg-[#e9ebef] p-3 rounded-2xl"><Ellipsis className="w-4 h-4" /></button>
+                <button className="hover:bg-[#e9ebef] p-3 rounded-2xl" onClick={() => setEditJobId(job.id)}><Ellipsis className="w-4 h-4" /></button>
 
               </div>
             </div>

@@ -1,12 +1,12 @@
-import { Plus, X } from "lucide-react"
+import { AwardIcon, Plus, X } from "lucide-react"
 import Input from "./Input/Input"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { axiosInstance } from "../utils/axiosinstance";
 import { API_PATHS } from "../utils/apiPath";
 
-const JobForm = ({ onClose, fetchJobs }) => {
+const JobForm = ({ onClose, fetchJobs, jobId, }) => {
   const [company, setCompany] = useState("")
   const [title, setTitle] = useState("")
   const [status, setStatus] = useState("Applied");
@@ -15,7 +15,6 @@ const JobForm = ({ onClose, fetchJobs }) => {
   const [location, setLocation] = useState("")
   const [email, setEmail] = useState("")
   const [notes, setNotes] = useState("")
-
 
   const cleanForm = () => {
     setCompany("")
@@ -27,6 +26,33 @@ const JobForm = ({ onClose, fetchJobs }) => {
     setEmail("")
     setNotes("")
   }
+
+  useEffect(() => {
+    if (jobId) {
+      const fetchJob = async () => {
+        try {
+          const res = await axiosInstance.get(API_PATHS.JOB.GETBYID(jobId))
+          console.log(res) // ดูว่า res มีอะไรบ้าง
+          const data = res.data.GetById
+          setCompany(data.company)
+          setTitle(data.title)
+          setStatus(data.status)
+          setDate(data.date)
+          setSalary(data.salary)
+          setLocation(data.location)
+          setEmail(data.email)
+          setNotes(data.notes)
+        } catch (error) {
+          console.log(error)
+        }
+      }
+      fetchJob()
+    } else {
+      cleanForm()
+    }
+  }, [jobId])
+
+
 
   const handleSubmit = async () => {
     const payload = {
@@ -40,13 +66,20 @@ const JobForm = ({ onClose, fetchJobs }) => {
       notes,
     }
     try {
-
-      const response = await axiosInstance.post(API_PATHS.JOB.CREATE, payload)
-      if (response.data.message) {
-        toast.success(response.data.message)
-        cleanForm()
-        fetchJobs()
+      if (jobId) {
+        const response = await axiosInstance.put(API_PATHS.JOB.UPDATE(jobId), payload)
+        if (response.data.message) {
+          toast.success(response.data.message)
+        }
+      } else {
+        const response = await axiosInstance.post(API_PATHS.JOB.CREATE, payload)
+        if (response.data.message) {
+          cleanForm()
+          toast.success(response.data.message)
+        }
       }
+      fetchJobs()
+      onClose()
     } catch (error) {
       toast.error(error.response?.data?.message || "Something went wrong")
       console.log(error);
@@ -54,8 +87,23 @@ const JobForm = ({ onClose, fetchJobs }) => {
     }
   }
 
+  const handleDelete = async () => {
+    if (jobId) {
+      try {
+        const res = await axiosInstance.delete(API_PATHS.JOB.DELETE(jobId))
+        if (res.data.message) {
+          toast.success(res.data.message)
+          fetchJobs()
+          onClose()
+        }
+      } catch (error) {
+        toast.error(error.response?.data?.message || "Something went wrong")
+      }
+    }
+  }
+
   return (
-    <div className="w-full border p-8 rounded-md  mb-10">
+    <div className="w-full border p-8 rounded-md  mb-10 bg-white ">
       <div className="">
         <div className="flex justify-between">
           <h1>Add New Application</h1>
@@ -91,7 +139,7 @@ const JobForm = ({ onClose, fetchJobs }) => {
           </div>
 
           <div className="flex-1">
-            <Input value={salary} onChange={(e) => setSalary(e.target.value)} placeholder={'e.g. 50,000 - 70,000'} title={'Salary Range'} type="number" />
+            <Input value={salary} onChange={(e) => setSalary(e.target.value)} placeholder={'e.g. 50,000 - 70,000'} title={'Salary Range'} type="text" />
           </div>
         </div>
 
@@ -107,8 +155,9 @@ const JobForm = ({ onClose, fetchJobs }) => {
           />
         </div>
         <div className="w-full flex gap-2">
-          <button onClick={handleSubmit} className="flex justify-center items-center gap-4 py-2 font-semibold w-[90%] hover:bg-[#1c1b2b] bg-black text-white rounded-md text-center"><Plus className="w-4 h-4" /> Add Application</button>
-          <button className="w-[10%] border py-2 border-[#e5e5e5] rounded-md hover:bg-[#e9ebef]" onClick={onClose}>Cancel</button>
+          <button onClick={handleSubmit} className={`flex justify-center items-center gap-4 py-2 font-semibold ${jobId ? 'w-[50%]' : 'w-[90%]'} hover:bg-[#1c1b2b] bg-black text-white rounded-md text-center`}><Plus className="w-4 h-4" /> Add Application</button>
+          {jobId && <button className="w-[20%] bg-red-500 text-white py-2  rounded-md hover:bg-red-600" onClick={handleDelete}>Delete</button>}
+          <button className={`${jobId ? 'w-[20%]' : 'w-[10%]'}  border py-2 border-[#e5e5e5] rounded-md hover:bg-[#e9ebef]`} onClick={onClose}>Cancel</button>
         </div>
 
       </div>
