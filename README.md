@@ -1,16 +1,41 @@
-# React + Vite
+Job Application Tracker Pro
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Job Application Tracker Pro เป็นแอปพลิเคชันสำหรับติดตามสถานะการสมัครงานของคุณ ให้คุณดูข้อมูลทั้งหมดเกี่ยวกับการสมัครงาน เช่น จำนวนการสมัครงานทั้งหมด, สถานะการสมัคร, บริษัทที่สมัคร, และสถิติย้อนหลัง 30 วันในรูปแบบกราฟสวยงาม
 
-Currently, two official plugins are available:
+ฟีเจอร์หลัก
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+ติดตามสถานะการสมัครงาน: Pending, Interviewing, Offer, Rejected
 
-## React Compiler
+แสดงจำนวนการสมัครงานทั้งหมดแบบ All time
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+แสดง Interview Rate และ Offer Rate พร้อมตัวเลขและเปอร์เซ็นต์
 
-## Expanding the ESLint configuration
+แสดงจำนวน บริษัทที่สมัครไปไม่ซ้ำกัน (Unique Companies)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+กราฟ Applications Over Time (30 วันล่าสุด) แบบ Line Chart
+
+กราฟ จำนวนงานตามสถานะ แบบ Bar Chart
+
+รองรับการดูข้อมูลในรูปแบบ Dashboard
+
+ใช้งานง่ายผ่านเว็บเบราว์เซอร์
+
+Stack tech
+
+Frontend: React.js, Tailwind CSS, react-chartjs-2, Chart.js
+
+State Management: useState, useOutletContext (React Router)
+
+Date Handling: moment.js
+
+Backend (Optional): สามารถเชื่อมต่อ API สำหรับดึงข้อมูลสมัครงาน
+
+การใช้งาน
+
+เพิ่มข้อมูลการสมัครงาน เช่น ชื่อบริษัท, ตำแหน่ง, วันที่สมัคร, สถานะ
+
+Dashboard จะแสดงสรุปการสมัครงานทั้งหมด
+
+กราฟจะอัปเดตตามข้อมูลที่เพิ่มเข้าไป
+
+สามารถดูสถิติย้อนหลัง 30 วัน หรือสรุปทั้งหมดแบบ All time
